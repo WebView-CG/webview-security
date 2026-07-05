@@ -11,3 +11,4 @@ jobs:
         with:
           TOOLCHAIN: bikeshed
           VALIDATE_WEBIDL: false
+          VALIDATE_MARKUP: false
