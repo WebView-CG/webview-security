@@ -9,7 +9,7 @@ Repository: WebView-CG/webview-security
 URL: https://github.io/WebView-CG/webview-security
 Editor: Niklas Merz, The Apache Software Foundation, niklasmerz@apache.org
 Abstract:
-  Document how WebViews diverge conceptually from security concepts,
+  Documention on how WebViews diverge conceptually from security concepts,
   user agent duties and practices defined for browsers.
 Markup Shorthands: markdown yes
 </pre>
@@ -19,28 +19,27 @@ Markup Shorthands: markdown yes
 
 WebViews are weird..
 
-This document does **not** define a new WebView security model. It documents where the configuration *"a host app embeds web content and exposes a native bridge"* diverges from existing W3C artifacts:
+This document does **not** define the WebView security model. 
+It documents where the configuration *"a host app embeds web content and exposes a native bridge"* diverges from existing W3C documents like:
 
 * [[web-user-agents inline]]   
 * [[design-principles inline]]   
 * [[threat-model-web inline]]  
-* more…
 
-**The goal** of this work is to document how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.
-
-## Follow up ## {#follow-up}
-
-The WebView CG can coordinate follow-up with the relevant groups and documents.
-
-1. Confirm with the TAG Web User Agents editors (w3ctag/user-agents) whether WebView-specific detail belongs in their document or as a companion to it, since they own the embedded-user-agent definition.  
-2. Propose one question into the S\&P Self-Review Questionnaire (w3c/security-questionnaire) like: *"How does your feature behave in a WebView embedded in and controlled by a host application?"*  
-3. A cross-vendor CG Note comparing how Android WebView, WKWebView, and WebView2 & more handle the Protection and Honesty duties  
-4. Longer term: a WebView annex to Threat Model for the Web (w3c/threat-model-web).
+This report documents how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.
 
 # Rationale # {#rationale}
 
 The TAG Web User Agents Finding states the key claim for user agents as software components :   
-WebView libraries are *not* user agents on their own and do not implement the user-agent duties; the **embedding application inherits the duties if it acts as a user agent**, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser." It does not say *how*. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
+
+> WebView libraries are *not* user agents on their own and do not implement the user-agent duties; 
+> the **embedding application inherits the duties if it acts as a user agent**, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser." 
+
+It does not say *how*. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
+
+A host app embeds web content and exposes a native bridge.
+
+TODO Details
 
 # Diagrams # {#diagrams}
 
