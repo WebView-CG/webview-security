@@ -8,3 +8,5 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: bikeshed

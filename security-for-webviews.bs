@@ -1,6 +1,6 @@
 <pre class='metadata'>
 Title: Security Considerations for WebViews
-Shortname: security-for-webviews
+Shortname: webview-security
 Level: none
 Status: CG-DRAFT
 Org: W3C
