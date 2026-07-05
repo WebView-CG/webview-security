@@ -1,0 +1,72 @@
+<pre class='metadata'>
+Title: Security Considerations for WebViews
+Shortname: security-for-webviews
+Level: none
+Status: CG-DRAFT
+Org: W3C
+Group: WebView Community Group
+Repository: WebView-CG/webview-security
+URL: https://github.io/WebView-CG/webview-security
+Editor: Niklas Merz, The Apache Software Foundation, niklasmerz@apache.org
+Abstract:
+  Document how WebViews diverge conceptually from security concepts,
+  user agent duties and practices defined for browsers.
+Markup Shorthands: markdown yes
+</pre>
+
+
+# Intro # {#intro}
+
+WebViews are weird..
+
+This document does **not** define a new WebView security model. It documents where the configuration *"a host app embeds web content and exposes a native bridge"* diverges from existing W3C artifacts:
+
+* [**Web User Agents** (TAG)](https://www.w3.org/TR/web-user-agents/)   
+* [**Web Platform Design Principles** (TAG)](https://www.w3.org/TR/design-principles/)   
+* [**Threat Model for the Web** (Security IG)](https://www.w3.org/TR/threat-model-web/)  
+* more…
+
+**The goal** of this work is to document how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.
+
+Building on this baseline, the WebView CG can coordinate follow-up with the relevant groups and documents.
+
+1. Confirm with the TAG Web User Agents editors (w3ctag/user-agents) whether WebView-specific detail belongs in their document or as a companion to it, since they own the embedded-user-agent definition.  
+2. Propose one question into the S\&P Self-Review Questionnaire (w3c/security-questionnaire) like: *"How does your feature behave in a WebView embedded in and controlled by a host application?"*  
+3. A cross-vendor CG Note comparing how Android WebView, WKWebView, and WebView2 & more handle the Protection and Honesty duties  
+4. Longer term: a WebView annex to Threat Model for the Web (w3c/threat-model-web).
+
+# Rationale # {#rationale}
+
+The TAG Web User Agents Finding states the key claim for user agents as software components :   
+WebView libraries are *not* user agents on their own and do not implement the user-agent duties; the **embedding application inherits the duties if it acts as a user agent**, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser." It does not say *how*. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
+
+# Diagrams
+
+# Duties
+
+Looking at the duties, design principles and threat model we can list areas where WebViews diverge. The list is not exhaustive.
+
+## Protection
+
+ > It should be safe to visit a web page
+
+*If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies. For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page. [TR](https://www.w3.org/TR/design-principles/#safe-to-browse)*
+
+* **Host control over content (integrity)**   
+* **Same Origin Policy**  
+* **Sandbox / process isolation**  
+* **Transport** \-TLS, mixed content  
+* **Permissions**  
+* **Storage**  
+* **Anti-Tracking**
+
+## Honesty 
+
+> Trusted user interface should be trustworthy
+
+*Users depend on trusted user interfaces such as the address bar, security indicators and permission prompts, to understand who they are interacting with and how. These trusted user interfaces must be able to be designed in a way that enables users to trust and verify that the information they provide is genuine, and hasn’t been spoofed or hijacked by the website. [TR](https://www.w3.org/TR/design-principles/#trusted-ui)*
+
+* **Trusted UI / visible origin**  
+* **Security/permission indicators**
+
+
