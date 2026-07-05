@@ -17,8 +17,6 @@ Markup Shorthands: markdown yes
 
 # Intro # {#intro}
 
-WebViews are weird..
-
 This document does **not** define the WebView security model. 
 It documents where the configuration *"a host app embeds web content and exposes a native bridge"* diverges from existing W3C documents like:
 
@@ -37,7 +35,11 @@ The TAG Web User Agents Finding states the key claim for user agents as software
 
 It does not say *how*. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
 
-A host app embeds web content and exposes a native bridge.
+# Scenario / Configuration # {#configuration}
+
+WebViews can be used in many different ways but one very typical configuration has the most security critical consequences.
+
+**A host app embeds web content and exposes a native bridge.**
 
 TODO Details
 
@@ -59,7 +61,7 @@ For example, users may choose to use a web-based food ordering page, rather than
 * **Host control over content (integrity)**   
 * **Same Origin Policy**  
 * **Sandbox / process isolation**  
-* **Transport** \-TLS, mixed content  
+* **Transport**: TLS, mixed content  
 * **Permissions**  
 * **Storage**  
 * **Anti-Tracking**
