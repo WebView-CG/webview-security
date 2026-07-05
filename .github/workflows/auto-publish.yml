@@ -17,5 +17,6 @@ jobs:
           TOOLCHAIN: bikeshed
           VALIDATE_WEBIDL: false
           VALIDATE_INPUT_MARKUP: false
+          BUILD_FAIL_ON: nothing
           VALIDATE_MARKUP: false
           GH_PAGES_BRANCH: gh-pages

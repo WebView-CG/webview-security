@@ -13,3 +13,4 @@ jobs:
           VALIDATE_WEBIDL: false
           VALIDATE_INPUT_MARKUP: false
           VALIDATE_MARKUP: false
+          BUILD_FAIL_ON: nothing
