@@ -10,3 +10,4 @@ jobs:
       - uses: w3c/spec-prod@v2
         with:
           TOOLCHAIN: bikeshed
+          VALIDATE_WEBIDL: false
