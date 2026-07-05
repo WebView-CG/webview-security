@@ -6,7 +6,7 @@ Status: CG-DRAFT
 Org: W3C
 Group: WebView Community Group
 Repository: WebView-CG/webview-security
-URL: https://github.io/WebView-CG/webview-security
+URL: https://webview-cg.github.io/webview-security/
 Editor: Niklas Merz, The Apache Software Foundation, niklasmerz@apache.org
 Abstract:
   Documention on how WebViews diverge conceptually from security concepts,
@@ -41,11 +41,19 @@ WebViews can be used in many different ways but one very typical configuration h
 
 **A host app embeds web content and exposes a native bridge.**
 
-TODO Details
+Note: TODO Details
 
 # Diagrams # {#diagrams}
 
-TODO: Basic diagram in preparation for threat model
+Note: TODO: Basic diagram in preparation for threat model, Use the DSL?
+
+<pre class=railroad>
+T: /*
+ZeroOrMore:
+  N: anything but * followed by /
+T: */
+</pre>
+
 
 # Duties # {#duties}
 
@@ -68,11 +76,15 @@ For example, users may choose to use a web-based food ordering page, rather than
 
 ## Honesty ## {#honesty}
 
-> Trusted user interface should be trustworthy
+> [[design-principles#trusted-ui|Trusted user interface should be trustworthy.]]
 
-*Users depend on trusted user interfaces such as the address bar, security indicators and permission prompts, to understand who they are interacting with and how. These trusted user interfaces must be able to be designed in a way that enables users to trust and verify that the information they provide is genuine, and hasn’t been spoofed or hijacked by the website. [TR](https://www.w3.org/TR/design-principles/#trusted-ui)*
+Users depend on trusted user interfaces such as the address bar, security indicators and permission prompts,
+to understand who they are interacting with and how. 
+These trusted user interfaces must be able to be designed in a way that enables users to trust and verify that the information they provide is genuine, and hasn’t been spoofed or hijacked by the website.
 
 * **Trusted UI / visible origin**  
 * **Security/permission indicators**
 
+# Comparison Table # {#comparison}
 
+Issue(#1): Compare WebView implementations and show examples
