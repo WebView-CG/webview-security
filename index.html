@@ -8,7 +8,7 @@
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="https://github.io/WebView-CG/webview-security" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="395de5fe41c900d04c233150ae5df6e38d30078c" name="revision">
+  <meta content="a183c4c459c0bd5e2f48e4e78706e1a425c623cc" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -458,12 +458,13 @@ user agent duties and practices defined for browsers.</p>
    <ol class="toc">
     <li><a href="#intro"><span class="secno">1</span> <span class="content">Intro</span></a>
     <li><a href="#rationale"><span class="secno">2</span> <span class="content">Rationale</span></a>
-    <li><a href="#diagrams"><span class="secno">3</span> <span class="content">Diagrams</span></a>
+    <li><a href="#configuration"><span class="secno">3</span> <span class="content">Scenario / Configuration</span></a>
+    <li><a href="#diagrams"><span class="secno">4</span> <span class="content">Diagrams</span></a>
     <li>
-     <a href="#duties"><span class="secno">4</span> <span class="content">Duties</span></a>
+     <a href="#duties"><span class="secno">5</span> <span class="content">Duties</span></a>
      <ol class="toc">
-      <li><a href="#protection"><span class="secno">4.1</span> <span class="content">Protection</span></a>
-      <li><a href="#honesty"><span class="secno">4.2</span> <span class="content">Honesty</span></a>
+      <li><a href="#protection"><span class="secno">5.1</span> <span class="content">Protection</span></a>
+      <li><a href="#honesty"><span class="secno">5.2</span> <span class="content">Honesty</span></a>
      </ol>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -480,7 +481,6 @@ user agent duties and practices defined for browsers.</p>
   </nav>
   <main>
    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Intro</span><a class="self-link" href="#intro"></a></h2>
-   <p>WebViews are weird..</p>
    <p>This document does <strong>not</strong> define the WebView security model.
 It documents where the configuration <em>"a host app embeds web content and exposes a native bridge"</em> diverges from existing W3C documents like:</p>
    <ul>
@@ -499,13 +499,15 @@ It documents where the configuration <em>"a host app embeds web content and expo
 the <strong>embedding application inherits the duties if it acts as a user agent</strong>, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser."</p>
    </blockquote>
    <p>It does not say <em>how</em>. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.</p>
-   <p>A host app embeds web content and exposes a native bridge.</p>
+   <h2 class="heading settled" data-level="3" id="configuration"><span class="secno">3. </span><span class="content">Scenario / Configuration</span><a class="self-link" href="#configuration"></a></h2>
+   <p>WebViews can be used in many different ways but one very typical configuration has the most security critical consequences.</p>
+   <p><strong>A host app embeds web content and exposes a native bridge.</strong></p>
    <p>TODO Details</p>
-   <h2 class="heading settled" data-level="3" id="diagrams"><span class="secno">3. </span><span class="content">Diagrams</span><a class="self-link" href="#diagrams"></a></h2>
+   <h2 class="heading settled" data-level="4" id="diagrams"><span class="secno">4. </span><span class="content">Diagrams</span><a class="self-link" href="#diagrams"></a></h2>
    <p>TODO: Basic diagram in preparation for threat model</p>
-   <h2 class="heading settled" data-level="4" id="duties"><span class="secno">4. </span><span class="content">Duties</span><a class="self-link" href="#duties"></a></h2>
+   <h2 class="heading settled" data-level="5" id="duties"><span class="secno">5. </span><span class="content">Duties</span><a class="self-link" href="#duties"></a></h2>
    <p>Looking at the duties, design principles and threat model we can list areas where WebViews diverge. The list is not exhaustive.</p>
-   <h3 class="heading settled" data-level="4.1" id="protection"><span class="secno">4.1. </span><span class="content">Protection</span><a class="self-link" href="#protection"></a></h3>
+   <h3 class="heading settled" data-level="5.1" id="protection"><span class="secno">5.1. </span><span class="content">Protection</span><a class="self-link" href="#protection"></a></h3>
    <blockquote>
     <p><a href="https://w3ctag.github.io/design-principles/#safe-to-browse">It should be safe to visit a web page.</a></p>
    </blockquote>
@@ -519,7 +521,7 @@ For example, users may choose to use a web-based food ordering page, rather than
     <li data-md>
      <p><strong>Sandbox / process isolation</strong></p>
     <li data-md>
-     <p><strong>Transport</strong> \-TLS, mixed content</p>
+     <p><strong>Transport</strong>: TLS, mixed content</p>
     <li data-md>
      <p><strong>Permissions</strong></p>
     <li data-md>
@@ -527,7 +529,7 @@ For example, users may choose to use a web-based food ordering page, rather than
     <li data-md>
      <p><strong>Anti-Tracking</strong></p>
    </ul>
-   <h3 class="heading settled" data-level="4.2" id="honesty"><span class="secno">4.2. </span><span class="content">Honesty</span><a class="self-link" href="#honesty"></a></h3>
+   <h3 class="heading settled" data-level="5.2" id="honesty"><span class="secno">5.2. </span><span class="content">Honesty</span><a class="self-link" href="#honesty"></a></h3>
    <blockquote>
     <p>Trusted user interface should be trustworthy</p>
    </blockquote>
