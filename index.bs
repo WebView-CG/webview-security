@@ -21,14 +21,16 @@ WebViews are weird..
 
 This document does **not** define a new WebView security model. It documents where the configuration *"a host app embeds web content and exposes a native bridge"* diverges from existing W3C artifacts:
 
-* [**Web User Agents** (TAG)](https://www.w3.org/TR/web-user-agents/)   
-* [**Web Platform Design Principles** (TAG)](https://www.w3.org/TR/design-principles/)   
-* [**Threat Model for the Web** (Security IG)](https://www.w3.org/TR/threat-model-web/)  
+* [[web-user-agents inline]]   
+* [[design-principles inline]]   
+* [[threat-model-web inline]]  
 * more…
 
 **The goal** of this work is to document how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.
 
-Building on this baseline, the WebView CG can coordinate follow-up with the relevant groups and documents.
+## Follow up ## {#follow-up}
+
+The WebView CG can coordinate follow-up with the relevant groups and documents.
 
 1. Confirm with the TAG Web User Agents editors (w3ctag/user-agents) whether WebView-specific detail belongs in their document or as a companion to it, since they own the embedded-user-agent definition.  
 2. Propose one question into the S\&P Self-Review Questionnaire (w3c/security-questionnaire) like: *"How does your feature behave in a WebView embedded in and controlled by a host application?"*  
@@ -40,17 +42,20 @@ Building on this baseline, the WebView CG can coordinate follow-up with the rele
 The TAG Web User Agents Finding states the key claim for user agents as software components :   
 WebView libraries are *not* user agents on their own and do not implement the user-agent duties; the **embedding application inherits the duties if it acts as a user agent**, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser." It does not say *how*. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
 
-# Diagrams
+# Diagrams # {#diagrams}
 
-# Duties
+TODO: Basic diagram in preparation for threat model
+
+# Duties # {#duties}
 
 Looking at the duties, design principles and threat model we can list areas where WebViews diverge. The list is not exhaustive.
 
-## Protection
+## Protection ## {#protection}
 
- > It should be safe to visit a web page
+ > [[design-principles#safe-to-browse|It should be safe to visit a web page.]]
 
-*If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies. For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page. [TR](https://www.w3.org/TR/design-principles/#safe-to-browse)*
+If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies. 
+For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page.
 
 * **Host control over content (integrity)**   
 * **Same Origin Policy**  
@@ -60,7 +65,7 @@ Looking at the duties, design principles and threat model we can list areas wher
 * **Storage**  
 * **Anti-Tracking**
 
-## Honesty 
+## Honesty ## {#honesty}
 
 > Trusted user interface should be trustworthy
 
