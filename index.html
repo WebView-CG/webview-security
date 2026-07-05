@@ -8,7 +8,7 @@
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="https://github.io/WebView-CG/webview-security" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="c9e1b2f93f750a9e7ec8b6141753850f1e487a3d" name="revision">
+  <meta content="dff7cdedd981adcf0e56d62d06abcb8043717031" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -456,7 +456,11 @@ user agent duties and practices defined for browsers.</p>
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-ref no-toc" id="contents">Table of Contents</h2>
    <ol class="toc">
-    <li><a href="#intro"><span class="secno">1</span> <span class="content">Intro</span></a>
+    <li>
+     <a href="#intro"><span class="secno">1</span> <span class="content">Intro</span></a>
+     <ol class="toc">
+      <li><a href="#follow-up"><span class="secno">1.1</span> <span class="content">Follow up</span></a>
+     </ol>
     <li><a href="#rationale"><span class="secno">2</span> <span class="content">Rationale</span></a>
     <li><a href="#diagrams"><span class="secno">3</span> <span class="content">Diagrams</span></a>
     <li>
@@ -474,6 +478,7 @@ user agent duties and practices defined for browsers.</p>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Non-Normative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -483,16 +488,17 @@ user agent duties and practices defined for browsers.</p>
    <p>This document does <strong>not</strong> define a new WebView security model. It documents where the configuration <em>"a host app embeds web content and exposes a native bridge"</em> diverges from existing W3C artifacts:</p>
    <ul>
     <li data-md>
-     <p><a href="https://www.w3.org/TR/web-user-agents/"><strong>Web User Agents</strong> (TAG)</a></p>
+     <p><a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a></p>
     <li data-md>
-     <p><a href="https://www.w3.org/TR/design-principles/"><strong>Web Platform Design Principles</strong> (TAG)</a></p>
+     <p><a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/design-principles/"><cite>Web Platform Design Principles</cite></a></p>
     <li data-md>
-     <p><a href="https://www.w3.org/TR/threat-model-web/"><strong>Threat Model for the Web</strong> (Security IG)</a></p>
+     <p><a data-biblio-display="inline" data-link-type="biblio" href="https://w3c.github.io/threat-model-web/"><cite>Threat Model for the Web</cite></a></p>
     <li data-md>
      <p>more…</p>
    </ul>
    <p><strong>The goal</strong> of this work is to document how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.</p>
-   <p>Building on this baseline, the WebView CG can coordinate follow-up with the relevant groups and documents.</p>
+   <h3 class="heading settled" data-level="1.1" id="follow-up"><span class="secno">1.1. </span><span class="content">Follow up</span><a class="self-link" href="#follow-up"></a></h3>
+   <p>The WebView CG can coordinate follow-up with the relevant groups and documents.</p>
    <ol>
     <li data-md>
      <p>Confirm with the TAG Web User Agents editors (w3ctag/user-agents) whether WebView-specific detail belongs in their document or as a companion to it, since they own the embedded-user-agent definition.</p>
@@ -507,13 +513,15 @@ user agent duties and practices defined for browsers.</p>
    <p>The TAG Web User Agents Finding states the key claim for user agents as software components :
 WebView libraries are <em>not</em> user agents on their own and do not implement the user-agent duties; the <strong>embedding application inherits the duties if it acts as a user agent</strong>, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser." It does not say <em>how</em>. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.</p>
    <h2 class="heading settled" data-level="3" id="diagrams"><span class="secno">3. </span><span class="content">Diagrams</span><a class="self-link" href="#diagrams"></a></h2>
+   <p>TODO: Basic diagram in preparation for threat model</p>
    <h2 class="heading settled" data-level="4" id="duties"><span class="secno">4. </span><span class="content">Duties</span><a class="self-link" href="#duties"></a></h2>
    <p>Looking at the duties, design principles and threat model we can list areas where WebViews diverge. The list is not exhaustive.</p>
    <h3 class="heading settled" data-level="4.1" id="protection"><span class="secno">4.1. </span><span class="content">Protection</span><a class="self-link" href="#protection"></a></h3>
    <blockquote>
-    <p>It should be safe to visit a web page</p>
+    <p><a href="https://w3ctag.github.io/design-principles/#safe-to-browse">It should be safe to visit a web page.</a></p>
    </blockquote>
-   <p>*If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies. For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page. <a href="https://www.w3.org/TR/design-principles/#safe-to-browse">TR</a>*</p>
+   <p>If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies.
+For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page.</p>
    <ul>
     <li data-md>
      <p><strong>Host control over content (integrity)</strong></p>
@@ -583,6 +591,15 @@ WebView libraries are <em>not</em> user agents on their own and do not implement
   <h2 class="heading no-num no-ref settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="heading no-num no-ref settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-design-principles">[DESIGN-PRINCIPLES]
+   <dd>Martin Thomson; Jeffrey Yasskin. <a href="https://w3ctag.github.io/design-principles/"><cite>Web Platform Design Principles</cite></a>. URL: <a href="https://w3ctag.github.io/design-principles/">https://w3ctag.github.io/design-principles/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
+  </dl>
+  <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Non-Normative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-threat-model-web">[THREAT-MODEL-WEB]
+   <dd>Simone Onofri; Joe Andrieu; Giovanni Corti. <a href="https://w3c.github.io/threat-model-web/"><cite>Threat Model for the Web</cite></a>. URL: <a href="https://w3c.github.io/threat-model-web/">https://w3c.github.io/threat-model-web/</a>
+   <dt id="biblio-web-user-agents">[WEB-USER-AGENTS]
+   <dd>Jeffrey Yasskin; Sarven Capadisli. <a href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a>. URL: <a href="https://w3ctag.github.io/user-agents">https://w3ctag.github.io/user-agents</a>
   </dl>
