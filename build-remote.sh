@@ -1,1 +1,1 @@
-curl https://www.w3.org/publications/spec-generator/ -F file=@security-for-webviews.bs -F type=bikeshed-spec -F die-on=nothing > index.html
+curl https://www.w3.org/publications/spec-generator/ -F file=@index.bs -F type=bikeshed-spec -F die-on=nothing > index.html
