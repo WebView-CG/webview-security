@@ -8,7 +8,7 @@
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="https://webview-cg.github.io/webview-security/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="018cc7e454aaba9085b7ec82aef8ec66c6fff10f" name="revision">
+  <meta content="759981af10c506edf857af297eb5376412033b3b" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -357,45 +357,6 @@ a[href].issue-return {
     margin-bottom: 0;
 }
 </style>
-<style>/* Boilerplate: style-railroad */
-:root {
-    --railroad-bg: hsl(30, 20%, 95%);
-    --railroad-stroke: black;
-    --railroad-fill: hsl(120,100%,90%);
-}
-svg.railroad-diagram {
-    background-color: var(--railroad-bg);
-}
-svg.railroad-diagram path {
-    stroke-width:3px;
-    stroke: var(--railroad-stroke);
-    fill:transparent;
-}
-svg.railroad-diagram text {
-    font: bold 14px monospace;
-    fill: var(--text, currentcolor);
-    text-anchor:middle;
-}
-svg.railroad-diagram text.label {
-    text-anchor:start;
-}
-svg.railroad-diagram text.comment {
-    font:italic 12px monospace;
-}
-svg.railroad-diagram rect {
-    stroke-width:3px;
-    stroke: var(--railroad-stroke);
-    fill: var(--railroad-fill);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --railroad-bg: rgba(255, 255, 255, .05);
-        --railroad-stroke: #bbb;
-        --railroad-fill: hsla(240deg, 20%, 15%);
-    }
-}
-</style>
 <style>/* Boilerplate: style-selflinks */
 :root {
     --selflink-text: white;
@@ -463,7 +424,7 @@ dfn > a.self-link::before      { content: "#"; }
 </p>
    <h1 class="no-ref p-name" id="title">Security Considerations for WebViews</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>,
-    <time class="dt-updated" datetime="2026-07-05">5 July 2026</time></p>
+    <time class="dt-updated" datetime="2026-07-06">6 July 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -491,6 +452,9 @@ user agent duties and practices defined for browsers.</p>
   <h2 class="heading no-num no-ref no-toc settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
    <p></p>
+   <p>This report was published by the <a href="https://www.w3.org/community/webview/">WebView Community Group</a>. It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply. Learn more about <a href="https://www.w3.org/community/">W3C Community and Business Groups</a>.</p>
+   <p>This is a living document and does not intend to be exhaustive.</p>
+   <p>GitHub Issues are preferred for discussion of this report.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
@@ -499,18 +463,34 @@ user agent duties and practices defined for browsers.</p>
     <li><a href="#intro"><span class="secno">1</span> <span class="content">Intro</span></a>
     <li><a href="#rationale"><span class="secno">2</span> <span class="content">Rationale</span></a>
     <li><a href="#configuration"><span class="secno">3</span> <span class="content">Scenario / Configuration</span></a>
-    <li><a href="#diagrams"><span class="secno">4</span> <span class="content">Diagrams</span></a>
+    <li><a href="#terminology"><span class="secno">4</span> <span class="content">Terminology</span></a>
+    <li><a href="#diagrams"><span class="secno">5</span> <span class="content">Diagrams</span></a>
     <li>
-     <a href="#duties"><span class="secno">5</span> <span class="content">Duties</span></a>
+     <a href="#duties"><span class="secno">6</span> <span class="content">Duties</span></a>
      <ol class="toc">
-      <li><a href="#protection"><span class="secno">5.1</span> <span class="content">Protection</span></a>
-      <li><a href="#honesty"><span class="secno">5.2</span> <span class="content">Honesty</span></a>
+      <li>
+       <a href="#protection"><span class="secno">6.1</span> <span class="content">Protection</span></a>
+       <ol class="toc">
+        <li><a href="#host-control-over-content"><span class="secno">6.1.1</span> <span class="content">Host control over content (integrity)</span></a>
+        <li><a href="#same-origin-policy"><span class="secno">6.1.2</span> <span class="content">Same Origin Policy</span></a>
+        <li><a href="#sandbox-process-isolation"><span class="secno">6.1.3</span> <span class="content">Sandbox / process isolation</span></a>
+        <li><a href="#transport"><span class="secno">6.1.4</span> <span class="content">Transport: TLS, mixed content</span></a>
+        <li><a href="#permissions"><span class="secno">6.1.5</span> <span class="content">Permissions</span></a>
+        <li><a href="#storage"><span class="secno">6.1.6</span> <span class="content">Storage</span></a>
+        <li><a href="#anti-tracking"><span class="secno">6.1.7</span> <span class="content">Anti-Tracking</span></a>
+       </ol>
+      <li>
+       <a href="#honesty"><span class="secno">6.2</span> <span class="content">Honesty</span></a>
+       <ol class="toc">
+        <li><a href="#trustedui"><span class="secno">6.2.1</span> <span class="content">Trusted UI / visible origin</span></a>
+        <li><a href="#permission-indicators"><span class="secno">6.2.2</span> <span class="content">Security/permission indicators</span></a>
+       </ol>
      </ol>
-    <li><a href="#comparison"><span class="secno">6</span> <span class="content">Comparison Table</span></a>
+    <li><a href="#comparison"><span class="secno">7</span> <span class="content">Comparison Table</span></a>
     <li>
-     <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
+     <a href="#best-practices"><span class="secno">8</span> <span class="content">Best practices</span></a>
      <ol class="toc">
-      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
+      <li><a href="#type"><span class="secno">8.1</span> <span class="content">Pick the correct type</span></a>
      </ol>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
@@ -535,166 +515,133 @@ It documents where the configuration <em>"a host app embeds web content and expo
    </ul>
    <p>This report documents how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.</p>
    <h2 class="heading settled" data-level="2" id="rationale"><span class="secno">2. </span><span class="content">Rationale</span><a class="self-link" href="#rationale"></a></h2>
-   <p>The TAG Web User Agents Finding states the key claim for user agents as software components :</p>
+   <p>The <a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a> finding by the <a href="https://tag.w3.org/">TAG</a> states the key claim for user agents as software components :</p>
    <blockquote>
     <p>WebView libraries are <em>not</em> user agents on their own and do not implement the user-agent duties;
 the <strong>embedding application inherits the duties if it acts as a user agent</strong>, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser."</p>
    </blockquote>
-   <p>It does not say <em>how</em>. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.</p>
+   <p>It does not say <em>how</em>. This document is the mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.</p>
    <h2 class="heading settled" data-level="3" id="configuration"><span class="secno">3. </span><span class="content">Scenario / Configuration</span><a class="self-link" href="#configuration"></a></h2>
    <p>WebViews can be used in many different ways but one very typical configuration has the most security critical consequences.</p>
    <p><strong>A host app embeds web content and exposes a native bridge.</strong></p>
-   <p class="note" role="note"><span class="marker">Note:</span> TODO Details</p>
-   <h2 class="heading settled" data-level="4" id="diagrams"><span class="secno">4. </span><span class="content">Diagrams</span><a class="self-link" href="#diagrams"></a></h2>
-   <p class="note" role="note"><span class="marker">Note:</span> TODO: Basic diagram in preparation for threat model, Use the DSL?</p>
-   <div class="railroad">
-    <svg class="railroad-diagram" height="80" viewBox="0 0 512.0 80" width="512.0">
-     <g transform="translate(.5 .5)">
-      <g>
-       <path d="M20 30v20m10 -20v20m-10 -10h20"></path>
-      </g>
-      <path d="M40 40h10"></path>
-      <g class="terminal">
-       <path d="M50 40h0.0"></path>
-       <path d="M87.0 40h0.0"></path>
-       <rect height="22" rx="10" ry="10" width="37" x="50" y="29"></rect>
-       <text x="68.5" y="44">/*</text>
-      </g>
-      <path d="M87.0 40h10"></path>
-      <g>
-       <path d="M97.0 40h0.0"></path>
-       <path d="M415.0 40h0.0"></path>
-       <path d="M97.0 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path>
-       <g>
-        <path d="M117.0 20h278.0"></path>
-       </g>
-       <path d="M395.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path>
-       <path d="M97.0 40h20"></path>
-       <g>
-        <path d="M117.0 40h0.0"></path>
-        <path d="M395.0 40h0.0"></path>
-        <path d="M117.0 40h10"></path>
-        <g class="non-terminal">
-         <path d="M127.0 40h0.0"></path>
-         <path d="M385.0 40h0.0"></path>
-         <rect height="22" width="258" x="127" y="29"></rect>
-         <text x="256" y="44">anything but * followed by /</text>
-        </g>
-        <path d="M385.0 40h10"></path>
-        <path d="M127.0 40a10 10 0 0 0 -10 10v0a10 10 0 0 0 10 10"></path>
-        <g>
-         <path d="M127.0 60h258.0"></path>
-        </g>
-        <path d="M385.0 60a10 10 0 0 0 10 -10v0a10 10 0 0 0 -10 -10"></path>
-       </g>
-       <path d="M395.0 40h20"></path>
-      </g>
-      <path d="M415.0 40h10"></path>
-      <g class="terminal">
-       <path d="M425.0 40h0.0"></path>
-       <path d="M462.0 40h0.0"></path>
-       <rect height="22" rx="10" ry="10" width="37" x="425" y="29"></rect>
-       <text x="443.5" y="44">*/</text>
-      </g>
-      <path d="M462.0 40h10"></path>
-      <path d="M 472.0 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path>
-     </g>
-    </svg>
+   <div class="example no-marker" id="example-config">
+    <a class="self-link" href="#example-config"></a>
+    <div class="marker">EXAMPLE: Configrations</div>
+    <ul>
+     <li>A hybrid app using a framework like Capacitor, Cordova or Tauri
+     <li>A super app using a WebView to provide MiniApps
+    </ul>
    </div>
-   <h2 class="heading settled" data-level="5" id="duties"><span class="secno">5. </span><span class="content">Duties</span><a class="self-link" href="#duties"></a></h2>
+   <h2 class="heading settled" data-level="4" id="terminology"><span class="secno">4. </span><span class="content">Terminology</span><a class="self-link" href="#terminology"></a></h2>
+   <div class="informative">
+    <ul>
+     <li data-md>
+      <p>Host app</p>
+     <li data-md>
+      <p><a href="https://webview-cg.github.io/usage-and-challenges#webviews">WebViews</a></p>
+     <li data-md>
+      <p><a href="https://webview-cg.github.io/usage-and-challenges#types-of-webviews">Types of WebViews</a></p>
+    </ul>
+   </div>
+   <h2 class="heading settled" data-level="5" id="diagrams"><span class="secno">5. </span><span class="content">Diagrams</span><a class="self-link" href="#diagrams"></a></h2>
+   <p class="note" role="note"><span class="marker">Note:</span> TODO: More diagrams in preparation for threat model.</p>
+   <figure id="fig-hostapp-webview-origin">
+    <p><img alt="The host app contains the WebView, which contains the origin&apos;s web content. The host app reaches into the origin via a JavaScript bridge, and also mediates permissions requested by the origin." src="diagrams/WebView-Basic.svg"></p>
+    <figcaption>The host app can inject script into the origin loaded in the WebView via a native bridge, crossing a boundary that browsers otherwise protect.</figcaption>
+   </figure>
+   <h2 class="heading settled" data-level="6" id="duties"><span class="secno">6. </span><span class="content">Duties</span><a class="self-link" href="#duties"></a></h2>
    <p>Looking at the duties, design principles and threat model we can list areas where WebViews diverge. The list is not exhaustive.</p>
-   <h3 class="heading settled" data-level="5.1" id="protection"><span class="secno">5.1. </span><span class="content">Protection</span><a class="self-link" href="#protection"></a></h3>
+   <h3 class="heading settled" data-level="6.1" id="protection"><span class="secno">6.1. </span><span class="content">Protection</span><a class="self-link" href="#protection"></a></h3>
    <blockquote>
     <p><a href="https://w3ctag.github.io/design-principles/#safe-to-browse">It should be safe to visit a web page.</a></p>
    </blockquote>
    <p>If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies.
 For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page.</p>
-   <ul>
-    <li data-md>
-     <p><strong>Host control over content (integrity)</strong></p>
-    <li data-md>
-     <p><strong>Same Origin Policy</strong></p>
-    <li data-md>
-     <p><strong>Sandbox / process isolation</strong></p>
-    <li data-md>
-     <p><strong>Transport</strong>: TLS, mixed content</p>
-    <li data-md>
-     <p><strong>Permissions</strong></p>
-    <li data-md>
-     <p><strong>Storage</strong></p>
-    <li data-md>
-     <p><strong>Anti-Tracking</strong></p>
-   </ul>
-   <h3 class="heading settled" data-level="5.2" id="honesty"><span class="secno">5.2. </span><span class="content">Honesty</span><a class="self-link" href="#honesty"></a></h3>
+   <h4 class="heading settled" data-level="6.1.1" id="host-control-over-content"><span class="secno">6.1.1. </span><span class="content">Host control over content (integrity)</span><a class="self-link" href="#host-control-over-content"></a></h4>
+   <p>The host app can intercept and sometime rewrite requests and responses in the WebView.
+WebViews sometimes also can register their own custom schemes.</p>
+   <div class="example no-marker" id="example-host-control">
+    <a class="self-link" href="#example-host-control"></a>
+    <div class="marker">EXAMPLE: HTTP Intercept</div>
+    <table>
+     <thead>
+      <tr>
+       <th>Platform
+       <th>API
+       <th>Notes
+     <tbody>
+      <tr>
+       <td>Android
+       <td>WebViewAssetLoader
+       <td>
+      <tr>
+       <td>iOS, macOS
+       <td>WKURLSchemeHandler
+       <td>
+    </table>
+   </div>
+   <h4 class="heading settled" data-level="6.1.2" id="same-origin-policy"><span class="secno">6.1.2. </span><span class="content">Same Origin Policy</span><a class="self-link" href="#same-origin-policy"></a></h4>
+   <p>WebView APIs let the host app inject and execute JavaScript and CSS into an site regardless of the origin policy.</p>
+   <h4 class="heading settled" data-level="6.1.3" id="sandbox-process-isolation"><span class="secno">6.1.3. </span><span class="content">Sandbox / process isolation</span><a class="self-link" href="#sandbox-process-isolation"></a></h4>
+   <p class="issue" id="issue-3a8dab58"><a class="self-link" href="#issue-3a8dab58"></a> How does sandboxing and process isolation work in WebViews? <a href="https://github.com/WebView-CG/webview-security/issues/2">[Issue #2]</a></p>
+   <h4 class="heading settled" data-level="6.1.4" id="transport"><span class="secno">6.1.4. </span><span class="content">Transport: TLS, mixed content</span><a class="self-link" href="#transport"></a></h4>
+   <p>The host app can change TLS settings without the user noticing.</p>
+   <h4 class="heading settled" data-level="6.1.5" id="permissions"><span class="secno">6.1.5. </span><span class="content">Permissions</span><a class="self-link" href="#permissions"></a></h4>
+   <p>Web permissions like location are handled by the host app and not through user interfaces provided by the browser.
+The host app can silently allow or dismiss permission requests from web pages.</p>
+   <h4 class="heading settled" data-level="6.1.6" id="storage"><span class="secno">6.1.6. </span><span class="content">Storage</span><a class="self-link" href="#storage"></a></h4>
+   <div class="informative">
+    <p><a href="https://webview-cg.github.io/usage-and-challenges#dfn-browser-like">Browser-like WebViews</a> usually share their state with the systems browser.</p>
+    <p><a href="https://webview-cg.github.io/usage-and-challenges#dfn-fully-fledged">Fully-fledged WebViews</a> usually have their own storage scoped to the app.</p>
+   </div>
+   <p>WebViews provide APIs to create "CookieStores" that let the host app developer decide how state is shared between WebView instances.</p>
+   <h4 class="heading settled" data-level="6.1.7" id="anti-tracking"><span class="secno">6.1.7. </span><span class="content">Anti-Tracking</span><a class="self-link" href="#anti-tracking"></a></h4>
+   <p>The user has usually no way to configure anti-tracking measures. The host app might or might not be able to handle anti-tracking.
+So there is no transparency to the user if their browsing is protected by anti-tracking technology. 
+WebViews have no UI to inspect how cookies are blocked.</p>
+   <h3 class="heading settled" data-level="6.2" id="honesty"><span class="secno">6.2. </span><span class="content">Honesty</span><a class="self-link" href="#honesty"></a></h3>
    <blockquote>
     <p><a href="https://w3ctag.github.io/design-principles/#trusted-ui">Trusted user interface should be trustworthy.</a></p>
    </blockquote>
    <p>Users depend on trusted user interfaces such as the address bar, security indicators and permission prompts,
 to understand who they are interacting with and how. 
 These trusted user interfaces must be able to be designed in a way that enables users to trust and verify that the information they provide is genuine, and hasn’t been spoofed or hijacked by the website.</p>
-   <ul>
-    <li data-md>
-     <p><strong>Trusted UI / visible origin</strong></p>
-    <li data-md>
-     <p><strong>Security/permission indicators</strong></p>
-   </ul>
-   <h2 class="heading settled" data-level="6" id="comparison"><span class="secno">6. </span><span class="content">Comparison Table</span><a class="self-link" href="#comparison"></a></h2>
-   <p class="issue" id="issue-8ac266e9"><a class="self-link" href="#issue-8ac266e9"></a> Compare WebView implementations and show examples <a href="https://github.com/WebView-CG/webview-security/issues/1">[Issue #1]</a></p>
-  </main>
-  <div data-fill-with="conformance">
-   <h2 class="heading no-num no-ref settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
-   <h3 class="heading no-num no-ref settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
-   <p>Conformance requirements are expressed
-    with a combination of descriptive assertions
-    and RFC 2119 terminology.
-    The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
-    in the normative parts of this document
-    are to be interpreted as described in RFC 2119.
-    However, for readability,
-    these words do not appear in all uppercase letters in this specification.
+   <h4 class="heading settled" data-level="6.2.1" id="trustedui"><span class="secno">6.2.1. </span><span class="content">Trusted UI / visible origin</span><a class="self-link" href="#trustedui"></a></h4>
+   <p>The user usually cannot see the origin and TLS status in full screen WebViews.</p>
+   <h4 class="heading settled" data-level="6.2.2" id="permission-indicators"><span class="secno">6.2.2. </span><span class="content">Security/permission indicators</span><a class="self-link" href="#permission-indicators"></a></h4>
+   <p>The host app has control of permission prompts or UI if elevated privilegdes are used.</p>
+   <div class="example no-marker" id="example-oauth">
+    <a class="self-link" href="#example-oauth"></a>
+    <div class="marker">EXAMPLE: OAuth</div>
+    
+Using a WebView where the host app can intervene for a OAuth flow is discouraged
 
-    </p>
-   <p>All of the text of this specification is normative
-    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a>
-
-    </p>
-   <p>Examples in this specification are introduced with the words “for example”
-    or are set apart from the normative text
-    with <code>class="example"</code>,
-    like this:
-
-    </p>
-   <div class="example" id="w3c-example">
-    <a class="self-link" href="#w3c-example"></a>
-        
-    <p>This is an example of an informative example.
-    </p>
    </div>
-   <p>Informative notes begin with the word “Note”
-    and are set apart from the normative text
-    with <code>class="note"</code>,
-    like this:
-
-    </p>
-   <p class="note" role="note">Note, this is an informative note.</p>
-  </div>
+   <h2 class="heading settled" data-level="7" id="comparison"><span class="secno">7. </span><span class="content">Comparison Table</span><a class="self-link" href="#comparison"></a></h2>
+   <p class="issue" id="issue-9cefc301"><a class="self-link" href="#issue-9cefc301"></a> Should we add WebView implementations and show examples? <a href="https://github.com/WebView-CG/webview-security/issues/1">[Issue #1]</a></p>
+   <h2 class="heading settled" data-level="8" id="best-practices"><span class="secno">8. </span><span class="content">Best practices</span><a class="self-link" href="#best-practices"></a></h2>
+   <p>Practical advice to follow when using WebViews.</p>
+   <h3 class="heading settled" data-level="8.1" id="type"><span class="secno">8.1. </span><span class="content">Pick the correct type</span><a class="self-link" href="#type"></a></h3>
+   <p>No OAuth</p>
+  </main>
   <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="heading no-num no-ref settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="heading no-num no-ref settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-design-principles">[DESIGN-PRINCIPLES]
    <dd>Martin Thomson; Jeffrey Yasskin. <a href="https://w3ctag.github.io/design-principles/"><cite>Web Platform Design Principles</cite></a>. URL: <a href="https://w3ctag.github.io/design-principles/">https://w3ctag.github.io/design-principles/</a>
-   <dt id="biblio-rfc2119">[RFC2119]
-   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
   </dl>
   <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Non-Normative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-threat-model-web">[THREAT-MODEL-WEB]
    <dd>Simone Onofri; Joe Andrieu; Giovanni Corti. <a href="https://w3c.github.io/threat-model-web/"><cite>Threat Model for the Web</cite></a>. URL: <a href="https://w3c.github.io/threat-model-web/">https://w3c.github.io/threat-model-web/</a>
+   <dt id="biblio-usage-and-challenges">[USAGE-AND-CHALLENGES]
+   <dd>WebView Community Group. <a href="https://webview-cg.github.io/usage-and-challenges"><cite>WebView: Usage Scenarios and Challenges</cite></a>. Draft Community Group Report. URL: <a href="https://webview-cg.github.io/usage-and-challenges">https://webview-cg.github.io/usage-and-challenges</a>
    <dt id="biblio-web-user-agents">[WEB-USER-AGENTS]
    <dd>Jeffrey Yasskin; Sarven Capadisli. <a href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a>. URL: <a href="https://w3ctag.github.io/user-agents">https://w3ctag.github.io/user-agents</a>
   </dl>
   <h2 class="heading no-num no-ref settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> Compare WebView implementations and show examples <a href="https://github.com/WebView-CG/webview-security/issues/1">[Issue #1]</a> <a class="issue-return" href="#issue-8ac266e9" title="Jump to section">↵</a></div>
+   <div class="issue"> How does sandboxing and process isolation work in WebViews? <a href="https://github.com/WebView-CG/webview-security/issues/2">[Issue #2]</a> <a class="issue-return" href="#issue-3a8dab58" title="Jump to section">↵</a></div>
+   <div class="issue"> Should we add WebView implementations and show examples? <a href="https://github.com/WebView-CG/webview-security/issues/1">[Issue #1]</a> <a class="issue-return" href="#issue-9cefc301" title="Jump to section">↵</a></div>
   </div>
