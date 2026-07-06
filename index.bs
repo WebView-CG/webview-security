@@ -12,6 +12,24 @@ Abstract:
   Documention on how WebViews diverge conceptually from security concepts,
   user agent duties and practices defined for browsers.
 Markup Shorthands: markdown yes
+Boilerplate: conformance no
+Status Text:
+  This report was published by the [WebView Community Group](https://www.w3.org/community/webview/). It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the [W3C Community Contributor License Agreement (CLA)](https://www.w3.org/community/about/agreements/cla/) there is a limited opt-out and other conditions apply. Learn more about [W3C Community and Business Groups](https://www.w3.org/community/).
+
+  This is a living document and does not intend to be exhaustive.
+
+  GitHub Issues are preferred for discussion of this report.
+</pre>
+
+<pre class="biblio">
+{
+    "USAGE-AND-CHALLENGES": {
+        "authors": ["WebView Community Group"],
+        "href": "https://webview-cg.github.io/usage-and-challenges",
+        "title": "WebView: Usage Scenarios and Challenges",
+        "status": "Draft Community Group Report"
+    }
+}
 </pre>
 
 
@@ -28,12 +46,12 @@ This report documents how WebViews diverge conceptually from security concepts, 
 
 # Rationale # {#rationale}
 
-The TAG Web User Agents Finding states the key claim for user agents as software components :   
+The [[web-user-agents inline]] finding by the [TAG](https://tag.w3.org/) states the key claim for user agents as software components :   
 
 > WebView libraries are *not* user agents on their own and do not implement the user-agent duties; 
 > the **embedding application inherits the duties if it acts as a user agent**, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser." 
 
-It does not say *how*. This document is the cross-vendor, mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
+It does not say *how*. This document is the mechanism-level account of how a WebView configuration causes the embedding app to succeed or fail at each duty.
 
 # Scenario / Configuration # {#configuration}
 
@@ -41,7 +59,24 @@ WebViews can be used in many different ways but one very typical configuration h
 
 **A host app embeds web content and exposes a native bridge.**
 
-Note: TODO Details
+<div class="example" id="example-config" heading="Configrations">
+
+<ul>
+<li>A hybrid app using a framework like Capacitor, Cordova or Tauri</li>
+<li>A super app using a WebView to provide MiniApps</li>
+</ul>
+
+</div>
+
+# Terminology # {#terminology}
+
+<div class="informative">
+
+* Host app
+* [[USAGE-AND-CHALLENGES#webviews|WebViews]]
+* [[USAGE-AND-CHALLENGES#types-of-webviews|Types of WebViews]]
+
+</div>
 
 # Diagrams # {#diagrams}
 
@@ -66,13 +101,71 @@ Looking at the duties, design principles and threat model we can list areas wher
 If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies. 
 For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page.
 
-* **Host control over content (integrity)**   
-* **Same Origin Policy**  
-* **Sandbox / process isolation**  
-* **Transport**: TLS, mixed content  
-* **Permissions**  
-* **Storage**  
-* **Anti-Tracking**
+### Host control over content (integrity) ### {#host-control-over-content}
+
+The host app can intercept and sometime rewrite requests and responses in the WebView. 
+WebViews sometimes also can register their own custom schemes.
+
+<div class="example" id="example-host-control" heading="HTTP Intercept">
+
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>API</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android</td>
+<td>WebViewAssetLoader</td>
+<td></td>
+</tr>
+<tr>
+<td>iOS, macOS</td>
+<td>WKURLSchemeHandler</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+### Same Origin Policy ### {#same-origin-policy}
+
+WebView APIs let the host app inject and execute JavaScript and CSS into an site regardless of the origin policy. 
+
+### Sandbox / process isolation ### {#sandbox-process-isolation}
+
+Issue(#2): How does sandboxing and process isolation work in WebViews?
+
+### Transport: TLS, mixed content ### {#transport}
+
+The host app can change TLS settings without the user noticing.
+
+### Permissions ### {#permissions}
+
+Web permissions like location are handled by the host app and not through user interfaces provided by the browser. 
+The host app can silently allow or dismiss permission requests from web pages.
+
+### Storage ### {#storage}
+
+<div class="informative">
+
+[[USAGE-AND-CHALLENGES#dfn-browser-like|Browser-like WebViews]] usually share their state with the systems browser.
+
+[[USAGE-AND-CHALLENGES#dfn-fully-fledged|Fully-fledged WebViews]] usually have their own storage scoped to the app.
+
+</div>
+
+WebViews provide APIs to create "CookieStores" that let the host app developer decide how state is shared between WebView instances.
+
+### Anti-Tracking ### {#anti-tracking}
+
+The user has usually no way to configure anti-tracking measures. The host app might or might not be able to handle anti-tracking.
+So there is no transparency to the user if their browsing is protected by anti-tracking technology. 
+WebViews have no UI to inspect how cookies are blocked.
 
 ## Honesty ## {#honesty}
 
@@ -82,9 +175,26 @@ Users depend on trusted user interfaces such as the address bar, security indica
 to understand who they are interacting with and how. 
 These trusted user interfaces must be able to be designed in a way that enables users to trust and verify that the information they provide is genuine, and hasn’t been spoofed or hijacked by the website.
 
-* **Trusted UI / visible origin**  
-* **Security/permission indicators**
+### Trusted UI / visible origin ### {#trustedui}
+
+The user usually cannot see the origin and TLS status in full screen WebViews.
+
+### Security/permission indicators ### {#permission-indicators}
+
+The host app has control of permission prompts or UI if elevated privilegdes are used.
+
+<div class="example" id="example-oauth" heading="OAuth">
+Using a WebView where the host app can intervene for a OAuth flow is discouraged
+</div>
 
 # Comparison Table # {#comparison}
 
-Issue(#1): Compare WebView implementations and show examples
+Issue(#1): Should we add WebView implementations and show examples?
+
+# Best practices # {#best-practices}
+
+Practical advice to follow when using WebViews.
+
+## Pick the correct type ## {#type}
+
+No OAuth
