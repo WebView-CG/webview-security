@@ -80,14 +80,15 @@ WebViews can be used in many different ways but one very typical configuration h
 
 # Diagrams # {#diagrams}
 
-Note: TODO: Basic diagram in preparation for threat model, Use the DSL?
+Note: TODO: More diagrams in preparation for threat model.
 
-<pre class=railroad>
-T: /*
-ZeroOrMore:
-  N: anything but * followed by /
-T: */
-</pre>
+<figure id="fig-hostapp-webview-origin">
+
+<img src="diagrams/WebView-Basic.svg" alt="The host app contains the WebView, which contains the origin's web content. The host app reaches into the origin via a JavaScript bridge, and also mediates permissions requested by the origin.">
+
+<figcaption>The host app can inject script into the origin loaded in the WebView via a native bridge, crossing a boundary that browsers otherwise protect.</figcaption>
+
+</figure>
 
 
 # Duties # {#duties}
