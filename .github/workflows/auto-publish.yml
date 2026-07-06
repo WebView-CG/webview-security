@@ -1,7 +1,6 @@
 # Create a file called .github/workflows/auto-publish.yml
-name: CI
+name: Build
 on:
-  pull_request: {}
   push:
     branches: [main]
 jobs:
