@@ -36,7 +36,8 @@ Status Text:
 # Intro # {#intro}
 
 This document does **not** define the WebView security model. 
-It documents where the configuration *"a host app embeds web content and exposes a native bridge"* diverges from existing W3C documents like:
+It documents where the configuration "a [=host app=] embeds web content and exposes a native bridge" 
+diverges from concepts written in W3C documents like:
 
 * [[web-user-agents inline]]   
 * [[design-principles inline]]   
@@ -70,17 +71,16 @@ WebViews can be used in many different ways but one very typical configuration h
 
 # Terminology # {#terminology}
 
-<div class="informative">
+: <dfn id="dfn-host-app">Host app</dfn>
+::  A native application that embeds a WebView component to display and interact with web content. The host app has access to native WebView APIs and can inject scripts, handle permissions, and mediate communication between the embedded web content and native functionality.
 
-* Host app
-* [[USAGE-AND-CHALLENGES#webviews|WebViews]]
-* [[USAGE-AND-CHALLENGES#types-of-webviews|Types of WebViews]]
+: <dfn id="dfn-webview">WebView</dfn>
+::  See [[USAGE-AND-CHALLENGES#webviews|WebViews]]
 
-</div>
+: <dfn id="dfn-types-of-webviews">Types of WebViews</dfn>
+::  See [[USAGE-AND-CHALLENGES#types-of-webviews|Types of WebViews]]
 
 # Diagrams # {#diagrams}
-
-Note: TODO: More diagrams in preparation for threat model.
 
 <figure id="fig-hostapp-webview-origin">
 
@@ -93,7 +93,8 @@ Note: TODO: More diagrams in preparation for threat model.
 
 # Duties # {#duties}
 
-Looking at the duties, design principles and threat model we can list areas where WebViews diverge. The list is not exhaustive.
+Looking at the duties, design principles and the threat model for the web we can list areas where WebViews diverge. 
+**The list is not exhaustive.**
 
 ## Protection ## {#protection}
 
@@ -143,12 +144,18 @@ Issue(#2): How does sandboxing and process isolation work in WebViews?
 
 ### Transport: TLS, mixed content ### {#transport}
 
-The host app can change TLS settings without the user noticing.
+The host app can change TLS settings without the user noticing and allow insecure transports.
+
+<div class="example" id="example-tls" heading="Banking">
+
+</div>
 
 ### Permissions ### {#permissions}
 
-Web permissions like location are handled by the host app and not through user interfaces provided by the browser. 
+Web permissions like geolocation are handled by the host through callbacks from the WebView API. 
+WebViews usually have no user interface for permission prompts like the browser.  
 The host app can silently allow or dismiss permission requests from web pages.
+This may break web sites unexptectedly for the user at best or grant permissions unexptectedly at worst.
 
 ### Storage ### {#storage}
 
@@ -162,11 +169,20 @@ The host app can silently allow or dismiss permission requests from web pages.
 
 WebViews provide APIs to create "CookieStores" that let the host app developer decide how state is shared between WebView instances.
 
+To the user it's therefore not really transparent how storage is handled.
+
 ### Anti-Tracking ### {#anti-tracking}
 
-The user has usually no way to configure anti-tracking measures. The host app might or might not be able to handle anti-tracking.
+The user has usually no way to configure anti-tracking measures. The host app might or might not be able to handle anti-tracking capabilities of the WebView.
 So there is no transparency to the user if their browsing is protected by anti-tracking technology. 
 WebViews have no UI to inspect how cookies are blocked.
+
+<div class="example" id="example-tracking" heading="Engines">
+<ul>
+<li>WKWebView has Safaris Intelligent Tracking Prevention (ITP) enabled by default</li>
+<li>In Android WebView third party cookie tracking can be allowed or blocked via the CookieManager without the use knowing or consenting.</li>
+</ul> 
+</div>
 
 ## Honesty ## {#honesty}
 
@@ -185,7 +201,7 @@ The user usually cannot see the origin and TLS status in full screen WebViews.
 The host app has control of permission prompts or UI if elevated privilegdes are used.
 
 <div class="example" id="example-oauth" heading="OAuth">
-Using a WebView where the host app can intervene for a OAuth flow is discouraged
+Using a WebView where the host app can inject JavaScript for a OAuth flow is strongly discouraged and sometimes blocked by auth providers.
 </div>
 
 # Comparison Table # {#comparison}
@@ -198,4 +214,20 @@ Practical advice to follow when using WebViews.
 
 ## Pick the correct type ## {#type}
 
-No OAuth
+No OAuth in fully fledged WebViews
+
+## Turn on only what you need ## {#turn-off}
+
+Turn off JavaScript if you don't need it, don't use WebView APIs that you don't need.
+
+Don't grant permissions you don't need. Double check and verify.
+
+## Secure bridges ## {#secure-bridges}
+
+If you implement a bridge between the web and native layer make sure everything is properly validated
+and only things you need are exectured.
+
+<div class="example" id="example-bridge" heading="Bridge gone wrong">
+Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatched without validation from InAppBrowser WebViews.
+<a href="https://nvd.nist.gov/vuln/detail/CVE-2026-47430">CVE-2026-47430</a>
+</div>
