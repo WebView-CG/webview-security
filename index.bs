@@ -14,7 +14,9 @@ Abstract:
 Markup Shorthands: markdown yes
 Boilerplate: conformance no
 Status Text:
-  This report was published by the [WebView Community Group](https://www.w3.org/community/webview/). It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the [W3C Community Contributor License Agreement (CLA)](https://www.w3.org/community/about/agreements/cla/) there is a limited opt-out and other conditions apply. Learn more about [W3C Community and Business Groups](https://www.w3.org/community/).
+  ⚠️ This report is in a very early stage and has not been through discussions and consensus in the WebView CG. Consider it boilerplate for now.
+
+  This report will be published by the [WebView Community Group](https://www.w3.org/community/webview/). It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the [W3C Community Contributor License Agreement (CLA)](https://www.w3.org/community/about/agreements/cla/) there is a limited opt-out and other conditions apply. Learn more about [W3C Community and Business Groups](https://www.w3.org/community/).
 
   This is a living document and does not intend to be exhaustive.
 
