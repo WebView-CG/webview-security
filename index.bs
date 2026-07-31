@@ -142,6 +142,21 @@ WebView APIs let the host app inject and execute JavaScript and CSS into an site
 
 Issue(#2): How does sandboxing and process isolation work in WebViews?
 
+<div class="example" id="example-isolation-android" heading="Isolation in Android WebView">
+<b>Android WebView</b> uses 
+<a href="https://chromium.googlesource.com/chromium/src/+/HEAD/android_webview/renderer/README.md#out_of_process-renderer">
+a single out-of-process renderer
+</a>.
+Apps can create 
+<a href="https://chromium.googlesource.com/chromium/src/+/HEAD/android_webview/renderer/README.md#multiple-renderers">
+multiple WebView Profiles
+</a>
+, in which case each Profile gets its own renderer process.
+Learn more about <a href="https://chromium.googlesource.com/chromium/src/+/HEAD/docs/security/android-sandbox.md">
+Chrome Android Sandbox Design
+</a>in the Chromium documentation.
+</div>
+
 ### Transport: TLS, mixed content ### {#transport}
 
 The host app can change TLS settings without the user noticing and allow insecure transports.
