@@ -142,6 +142,12 @@ WebView APIs let the host app inject and execute JavaScript and CSS into an site
 
 ### Sandbox / process isolation ### {#sandbox-process-isolation}
 
+ > [[threat-model-web#sandboxed-web-content-execution-and-rendering|Implementations may also use origin- or site-based isolation strategies so that unrelated web content cannot interfere during normal use or following a compromise, but the exact isolation unit is browser-specific.]]
+
+WebViews inherit the sandbox of their engine, but the isolation unit is effectively chosen by the [=host app=]:
+it decides how many WebView instances share a process, and the native bridge gives content running in the sandboxed process a path into app-privileged code.
+Neither the user nor the loaded site can tell which isolation guarantees apply.
+
 Issue(#2): How does sandboxing and process isolation work in WebViews?
 
 <div class="example" id="example-isolation-android" heading="Isolation in Android WebView">
