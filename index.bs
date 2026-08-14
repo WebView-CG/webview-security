@@ -29,7 +29,7 @@ Status Text:
         "authors": ["WebView Community Group"],
         "href": "https://webview-cg.github.io/usage-and-challenges",
         "title": "WebView: Usage Scenarios and Challenges",
-        "status": "Draft Community Group Report"
+        "status": "DRAFT"
     }
 }
 </pre>
@@ -76,11 +76,9 @@ WebViews can be used in many different ways but one very typical configuration h
 : <dfn id="dfn-host-app">Host app</dfn>
 ::  A native application that embeds a WebView component to display and interact with web content. The host app has access to native WebView APIs and can inject scripts, handle permissions, and mediate communication between the embedded web content and native functionality.
 
-: <dfn id="dfn-webview">WebView</dfn>
-::  See [[USAGE-AND-CHALLENGES#webviews|WebViews]]
+[[USAGE-AND-CHALLENGES#webviews|WebViews]]
 
-: <dfn id="dfn-types-of-webviews">Types of WebViews</dfn>
-::  See [[USAGE-AND-CHALLENGES#types-of-webviews|Types of WebViews]]
+[[USAGE-AND-CHALLENGES#types-of-webviews|Types of WebViews]]
 
 # Diagrams # {#diagrams}
 
@@ -100,15 +98,14 @@ Looking at the duties, design principles and the threat model for the web we can
 
 ## Protection ## {#protection}
 
- > [[design-principles#safe-to-browse|It should be safe to visit a web page.]]
-
-If users have a realistic expectation of safety, they can make informed decisions between Web-based technologies and other technologies. 
-For example, users may choose to use a web-based food ordering page, rather than installing an app, since installing a native app is riskier than visiting a web page.
+Following [[design-principles#safe-to-browse]] users may choose to use a web-based food ordering page, rather than installing an app,
+since installing a native app is riskier than visiting a web page.
+An app using WebViews now combines the risk of web applications with native applications and may introduce additional risk. 
 
 ### Host control over content (integrity) ### {#host-control-over-content}
 
 The host app can intercept and sometime rewrite requests and responses in the WebView. 
-WebViews sometimes also can register their own custom schemes.
+WebViews also can register their own custom schemes or path handlers.
 
 <div class="example" id="example-host-control" heading="HTTP Intercept">
 
@@ -167,7 +164,8 @@ Chrome Android Sandbox Design
 
 ### Transport: TLS, mixed content ### {#transport}
 
-The host app can change TLS settings without the user noticing and allow insecure transports.
+The host app can change TLS settings without the user noticing and allow insecure transports. 
+WebView implementations with not URL bar or UI hide information users in browsers use to verify the trusted source (HTTPS icon, trusted domain names, tracking prevention etc.).
 
 <div class="example" id="example-tls" heading="Banking">
 
@@ -175,12 +173,14 @@ The host app can change TLS settings without the user noticing and allow insecur
 
 ### Permissions ### {#permissions}
 
-Web permissions like geolocation are handled by the host through callbacks from the WebView API. 
+Web permission prompts like geolocation are handled by the host through callbacks from the WebView API. 
 WebViews usually have no user interface for permission prompts like the browser.  
-The host app can silently allow or dismiss permission requests from web pages.
+The host app can silently allow or dismiss permission requests from web pages with now user interaction.
 This may break web sites unexptectedly for the user at best or grant permissions unexptectedly at worst.
 
 ### Storage ### {#storage}
+
+The level of storage isolation for cookies, localstorage etc. is usually unknown to the user.
 
 <div class="informative">
 
@@ -190,9 +190,7 @@ This may break web sites unexptectedly for the user at best or grant permissions
 
 </div>
 
-WebViews provide APIs to create "CookieStores" that let the host app developer decide how state is shared between WebView instances.
-
-To the user it's therefore not really transparent how storage is handled.
+Some WebViews provide APIs to create "CookieStores" that let the host app developer decide how state is shared between WebView instances.
 
 ### Anti-Tracking ### {#anti-tracking}
 
@@ -202,7 +200,7 @@ WebViews have no UI to inspect how cookies are blocked.
 
 <div class="example" id="example-tracking" heading="Engines">
 <ul>
-<li>WKWebView has Safaris Intelligent Tracking Prevention (ITP) enabled by default</li>
+<li>WKWebView has Safari's Intelligent Tracking Prevention (ITP) enabled by default and it can only be disabled in certain scenarios</li>
 <li>In Android WebView third party cookie tracking can be allowed or blocked via the CookieManager without the use knowing or consenting.</li>
 </ul> 
 </div>
@@ -237,7 +235,7 @@ Practical advice to follow when using WebViews.
 
 ## Pick the correct type ## {#type}
 
-No OAuth in fully fledged WebViews
+Example: No OAuth in fully fledged WebViews
 
 ## Turn on only what you need ## {#turn-off}
 
@@ -254,3 +252,9 @@ and only things you need are exectured.
 Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatched without validation from InAppBrowser WebViews.
 <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-47430">CVE-2026-47430</a>
 </div>
+
+## Restrict naviation
+
+Example Cordova has an allow list.
+
+
