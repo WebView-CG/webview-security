@@ -29,11 +29,15 @@ Status Text:
         "authors": ["WebView Community Group"],
         "href": "https://webview-cg.github.io/usage-and-challenges",
         "title": "WebView: Usage Scenarios and Challenges",
-        "status": "DRAFT"
+        "status": "Draft Community Group Report"
     }
 }
 </pre>
 
+<!-- This report is entirely non-normative, so every reference it cites is
+     an informative one. Bikeshed decides normativity from context for
+     [[SPEC#section]] links, so wrap the whole document. -->
+<div class="non-normative">
 
 # Intro # {#intro}
 
@@ -256,5 +260,7 @@ Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatch
 ## Restrict naviation
 
 Example Cordova has an allow list.
+
+</div>
 
 
