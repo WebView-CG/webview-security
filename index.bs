@@ -14,9 +14,7 @@ Abstract:
 Markup Shorthands: markdown yes
 Boilerplate: conformance no
 Status Text:
-  ⚠️ This report is in a very early stage and has not been through discussions and consensus in the WebView CG. Consider it boilerplate for now.
-
-  This report will be published by the [WebView Community Group](https://www.w3.org/community/webview/). It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the [W3C Community Contributor License Agreement (CLA)](https://www.w3.org/community/about/agreements/cla/) there is a limited opt-out and other conditions apply. Learn more about [W3C Community and Business Groups](https://www.w3.org/community/).
+  This report is maintained by the [WebView Community Group](https://www.w3.org/community/webview/). It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the [W3C Community Contributor License Agreement (CLA)](https://www.w3.org/community/about/agreements/cla/) there is a limited opt-out and other conditions apply. Learn more about [W3C Community and Business Groups](https://www.w3.org/community/).
 
   This is a living document and does not intend to be exhaustive.
 
@@ -205,7 +203,7 @@ WebViews have no UI to inspect how cookies are blocked.
 <div class="example" id="example-tracking" heading="Engines">
 <ul>
 <li>WKWebView has Safari's Intelligent Tracking Prevention (ITP) enabled by default and it can only be disabled in certain scenarios</li>
-<li>In Android WebView third party cookie tracking can be allowed or blocked via the CookieManager without the use knowing or consenting.</li>
+<li>In Android WebView third party cookie tracking can be allowed or blocked via the CookieManager without the user knowing or consenting.</li>
 </ul> 
 </div>
 
@@ -233,19 +231,18 @@ Using a WebView where the host app can inject JavaScript for a OAuth flow is str
 
 Issue(#1): Should we add WebView implementations and show examples?
 
-# Best practices # {#best-practices}
-
-Practical advice to follow when using WebViews.
 
 ## Pick the correct type ## {#type}
 
-Example: No OAuth in fully fledged WebViews
+A fully featured WebView is not suited to be used for "general web browsing".
+
+Example: OAuth login flows should not be done in fully fledged WebViews
 
 ## Turn on only what you need ## {#turn-off}
 
 Turn off JavaScript if you don't need it, don't use WebView APIs that you don't need.
 
-Don't grant permissions you don't need. Double check and verify.
+Don't grant permissions you don't need. Double check and verify when permissions are requested from web content.
 
 ## Secure bridges ## {#secure-bridges}
 
@@ -257,9 +254,13 @@ Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatch
 <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-47430">CVE-2026-47430</a>
 </div>
 
-## Restrict naviation
+## Restrict navigation
 
-Example Cordova has an allow list.
+A WebView should not navigate to domains not controlled by the application.
+
+<div class="example" id="example-cordova-allow-list" heading="Cordova Allow List">
+
+By default, new apps are configured to allow access to any site. Before moving your application to production, you should formulate an allow list to provide access to specific network domains and subdomains.
 
 </div>
 
