@@ -5,10 +5,10 @@
   <title>Security Considerations for WebViews</title>
   <meta content="CG-DRAFT" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
+  <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
   <link href="https://webview-cg.github.io/webview-security/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="ac0dee27ecd44045a191ef5d7838e4f7cf0deb6f" name="revision">
+  <meta content="df19abd85bcc6254d868397bac15d4d820aa8170" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -581,7 +581,7 @@ dfn > a.self-link::before      { content: "#"; }
 </p>
    <h1 class="no-ref p-name" id="title">Security Considerations for WebViews</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>,
-    <time class="dt-updated" datetime="2026-08-14">14 August 2026</time></p>
+    <time class="dt-updated" datetime="2026-10-26">26 October 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -609,8 +609,7 @@ user agent duties and practices defined for browsers.</p>
   <h2 class="heading no-num no-ref no-toc settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
    <p></p>
-   <p>⚠️ This report is in a very early stage and has not been through discussions and consensus in the WebView CG. Consider it boilerplate for now.</p>
-   <p>This report will be published by the <a href="https://www.w3.org/community/webview/">WebView Community Group</a>. It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply. Learn more about <a href="https://www.w3.org/community/">W3C Community and Business Groups</a>.</p>
+   <p>This report is maintained by the <a href="https://www.w3.org/community/webview/">WebView Community Group</a>. It is not a W3C Standard nor is it on the W3C Standards Track. Please note that under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply. Learn more about <a href="https://www.w3.org/community/">W3C Community and Business Groups</a>.</p>
    <p>This is a living document and does not intend to be exhaustive.</p>
    <p>GitHub Issues are preferred for discussion of this report.</p>
   </div>
@@ -644,14 +643,13 @@ user agent duties and practices defined for browsers.</p>
         <li><a href="#permission-indicators"><span class="secno">6.2.2</span> <span class="content">Security/permission indicators</span></a>
        </ol>
      </ol>
-    <li><a href="#comparison"><span class="secno">7</span> <span class="content">Comparison Table</span></a>
     <li>
-     <a href="#best-practices"><span class="secno">8</span> <span class="content">Best practices</span></a>
+     <a href="#comparison"><span class="secno">7</span> <span class="content">Comparison Table</span></a>
      <ol class="toc">
-      <li><a href="#type"><span class="secno">8.1</span> <span class="content">Pick the correct type</span></a>
-      <li><a href="#turn-off"><span class="secno">8.2</span> <span class="content">Turn on only what you need</span></a>
-      <li><a href="#secure-bridges"><span class="secno">8.3</span> <span class="content">Secure bridges</span></a>
-      <li><a href="#restrict-naviation"><span class="secno">8.4</span> <span class="content">Restrict naviation</span></a>
+      <li><a href="#type"><span class="secno">7.1</span> <span class="content">Pick the correct type</span></a>
+      <li><a href="#turn-off"><span class="secno">7.2</span> <span class="content">Turn on only what you need</span></a>
+      <li><a href="#secure-bridges"><span class="secno">7.3</span> <span class="content">Secure bridges</span></a>
+      <li><a href="#restrict-navigation"><span class="secno">7.4</span> <span class="content">Restrict navigation</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -674,7 +672,7 @@ It documents where the configuration "a <a data-link-type="dfn" href="#dfn-host-
 diverges from concepts written in W3C documents like:</p>
     <ul>
      <li data-md>
-      <p><a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a></p>
+      <p><a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/user-agents"><cite>User Agents</cite></a></p>
      <li data-md>
       <p><a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/design-principles/"><cite>Web Platform Design Principles</cite></a></p>
      <li data-md>
@@ -682,7 +680,7 @@ diverges from concepts written in W3C documents like:</p>
     </ul>
     <p>This report documents how WebViews diverge conceptually from security concepts, user agent duties and practices defined for browsers.</p>
     <h2 class="heading settled" data-level="2" id="rationale"><span class="secno">2. </span><span class="content">Rationale</span><a class="self-link" href="#rationale"></a></h2>
-    <p>The <a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a> finding by the <a href="https://tag.w3.org/">TAG</a> states the key claim for user agents as software components :</p>
+    <p>The <a data-biblio-display="inline" data-link-type="biblio" href="https://w3ctag.github.io/user-agents"><cite>User Agents</cite></a> finding by the <a href="https://tag.w3.org/">TAG</a> states the key claim for user agents as software components :</p>
     <blockquote>
      <p>WebView libraries are <em>not</em> user agents on their own and do not implement the user-agent duties;
 the <strong>embedding application inherits the duties if it acts as a user agent</strong>, and "developers need to take extra care … when using a non-user-agent WebView to implement an in-app browser."</p>
@@ -821,14 +819,13 @@ Using a WebView where the host app can inject JavaScript for a OAuth flow is str
     </div>
     <h2 class="heading settled" data-level="7" id="comparison"><span class="secno">7. </span><span class="content">Comparison Table</span><a class="self-link" href="#comparison"></a></h2>
     <p class="issue" id="issue-9cefc301"><a class="self-link" href="#issue-9cefc301"></a> Should we add WebView implementations and show examples? <a href="https://github.com/WebView-CG/webview-security/issues/1">[Issue #1]</a></p>
-    <h2 class="heading settled" data-level="8" id="best-practices"><span class="secno">8. </span><span class="content">Best practices</span><a class="self-link" href="#best-practices"></a></h2>
-    <p>Practical advice to follow when using WebViews.</p>
-    <h3 class="heading settled" data-level="8.1" id="type"><span class="secno">8.1. </span><span class="content">Pick the correct type</span><a class="self-link" href="#type"></a></h3>
+    <h3 class="heading settled" data-level="7.1" id="type"><span class="secno">7.1. </span><span class="content">Pick the correct type</span><a class="self-link" href="#type"></a></h3>
+    <p>A fully featured WebView is not suited to be used for "general web browsing".</p>
     <p>Example: No OAuth in fully fledged WebViews</p>
-    <h3 class="heading settled" data-level="8.2" id="turn-off"><span class="secno">8.2. </span><span class="content">Turn on only what you need</span><a class="self-link" href="#turn-off"></a></h3>
+    <h3 class="heading settled" data-level="7.2" id="turn-off"><span class="secno">7.2. </span><span class="content">Turn on only what you need</span><a class="self-link" href="#turn-off"></a></h3>
     <p>Turn off JavaScript if you don’t need it, don’t use WebView APIs that you don’t need.</p>
-    <p>Don’t grant permissions you don’t need. Double check and verify.</p>
-    <h3 class="heading settled" data-level="8.3" id="secure-bridges"><span class="secno">8.3. </span><span class="content">Secure bridges</span><a class="self-link" href="#secure-bridges"></a></h3>
+    <p>Don’t grant permissions you don’t need. Double check and verify when permissions are requested from web content.</p>
+    <h3 class="heading settled" data-level="7.3" id="secure-bridges"><span class="secno">7.3. </span><span class="content">Secure bridges</span><a class="self-link" href="#secure-bridges"></a></h3>
     <p>If you implement a bridge between the web and native layer make sure everything is properly validated
 and only things you need are exectured.</p>
     <div class="example no-marker" id="example-bridge">
@@ -839,8 +836,13 @@ Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatch
 <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-47430">CVE-2026-47430</a>
 
     </div>
-    <h3 class="heading settled" data-level="8.4" id="restrict-naviation"><span class="secno">8.4. </span><span class="content">Restrict naviation</span><a class="self-link" href="#restrict-naviation"></a></h3>
-    <p>Example Cordova has an allow list.</p>
+    <h3 class="heading settled" data-level="7.4" id="restrict-navigation"><span class="secno">7.4. </span><span class="content">Restrict navigation</span><a class="self-link" href="#restrict-navigation"></a></h3>
+    <p>A WebView should not navigate to domains not controolled by the application.</p>
+    <div class="example no-marker" id="example-cordova-allow-listl">
+     <a class="self-link" href="#example-cordova-allow-listl"></a>
+     <div class="marker">EXAMPLE: Cordova Allow List</div>
+     <p>By default, new apps are configured to allow access to any site. Before moving your application to production, you should formulate an allow list to provide access to specific network domains and subdomains.</p>
+    </div>
    </div>
   </main>
   <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
@@ -853,13 +855,13 @@ Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatch
   <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Non-Normative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-design-principles">[DESIGN-PRINCIPLES]
-   <dd>Martin Thomson; Jeffrey Yasskin. <a href="https://w3ctag.github.io/design-principles/"><cite>Web Platform Design Principles</cite></a>. URL: <a href="https://w3ctag.github.io/design-principles/">https://w3ctag.github.io/design-principles/</a>
+   <dd>Jeffrey Yasskin. <a href="https://w3ctag.github.io/design-principles/"><cite>Web Platform Design Principles</cite></a>. URL: <a href="https://w3ctag.github.io/design-principles/">https://w3ctag.github.io/design-principles/</a>
    <dt id="biblio-threat-model-web">[THREAT-MODEL-WEB]
-   <dd>Simone Onofri; Joe Andrieu; Giovanni Corti. <a href="https://w3c.github.io/threat-model-web/"><cite>Threat Model for the Web</cite></a>. URL: <a href="https://w3c.github.io/threat-model-web/">https://w3c.github.io/threat-model-web/</a>
+   <dd>Simone Onofri; et al. <a href="https://w3c.github.io/threat-model-web/"><cite>Threat Model for the Web</cite></a>. URL: <a href="https://w3c.github.io/threat-model-web/">https://w3c.github.io/threat-model-web/</a>
    <dt id="biblio-usage-and-challenges">[USAGE-AND-CHALLENGES]
    <dd>WebView Community Group. <a href="https://webview-cg.github.io/usage-and-challenges"><cite>WebView: Usage Scenarios and Challenges</cite></a>. Draft Community Group Report. URL: <a href="https://webview-cg.github.io/usage-and-challenges">https://webview-cg.github.io/usage-and-challenges</a>
    <dt id="biblio-web-user-agents">[WEB-USER-AGENTS]
-   <dd>Jeffrey Yasskin; Sarven Capadisli. <a href="https://w3ctag.github.io/user-agents"><cite>Web User Agents</cite></a>. URL: <a href="https://w3ctag.github.io/user-agents">https://w3ctag.github.io/user-agents</a>
+   <dd>Sarven Capadisli; Jeffrey Yasskin. <a href="https://w3ctag.github.io/user-agents"><cite>User Agents</cite></a>. URL: <a href="https://w3ctag.github.io/user-agents">https://w3ctag.github.io/user-agents</a>
   </dl>
   <h2 class="heading no-num no-ref settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
