@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 49e9fdd4f, updated Tue Oct 13 14:27:53 2026 -0700" name="generator">
   <link href="https://webview-cg.github.io/webview-security/" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="df19abd85bcc6254d868397bac15d4d820aa8170" name="revision">
+  <meta content="1b542a34747534919669e7957ba86791e4d2c788" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -796,7 +796,7 @@ WebViews have no UI to inspect how cookies are blocked.</p>
      <div class="marker">EXAMPLE: Engines</div>
      <ul>
       <li>WKWebView has Safari’s Intelligent Tracking Prevention (ITP) enabled by default and it can only be disabled in certain scenarios
-      <li>In Android WebView third party cookie tracking can be allowed or blocked via the CookieManager without the use knowing or consenting.
+      <li>In Android WebView third party cookie tracking can be allowed or blocked via the CookieManager without the user knowing or consenting.
      </ul>
     </div>
     <h3 class="heading settled" data-level="6.2" id="honesty"><span class="secno">6.2. </span><span class="content">Honesty</span><a class="self-link" href="#honesty"></a></h3>
@@ -821,7 +821,7 @@ Using a WebView where the host app can inject JavaScript for a OAuth flow is str
     <p class="issue" id="issue-9cefc301"><a class="self-link" href="#issue-9cefc301"></a> Should we add WebView implementations and show examples? <a href="https://github.com/WebView-CG/webview-security/issues/1">[Issue #1]</a></p>
     <h3 class="heading settled" data-level="7.1" id="type"><span class="secno">7.1. </span><span class="content">Pick the correct type</span><a class="self-link" href="#type"></a></h3>
     <p>A fully featured WebView is not suited to be used for "general web browsing".</p>
-    <p>Example: No OAuth in fully fledged WebViews</p>
+    <p>Example: OAuth login flows should not be done in fully fledged WebViews</p>
     <h3 class="heading settled" data-level="7.2" id="turn-off"><span class="secno">7.2. </span><span class="content">Turn on only what you need</span><a class="self-link" href="#turn-off"></a></h3>
     <p>Turn off JavaScript if you don’t need it, don’t use WebView APIs that you don’t need.</p>
     <p>Don’t grant permissions you don’t need. Double check and verify when permissions are requested from web content.</p>
@@ -837,9 +837,9 @@ Cordova Plugin InAppBrowser: iOS: Arbitrary Cordova callback IDs can be dispatch
 
     </div>
     <h3 class="heading settled" data-level="7.4" id="restrict-navigation"><span class="secno">7.4. </span><span class="content">Restrict navigation</span><a class="self-link" href="#restrict-navigation"></a></h3>
-    <p>A WebView should not navigate to domains not controolled by the application.</p>
-    <div class="example no-marker" id="example-cordova-allow-listl">
-     <a class="self-link" href="#example-cordova-allow-listl"></a>
+    <p>A WebView should not navigate to domains not controlled by the application.</p>
+    <div class="example no-marker" id="example-cordova-allow-list">
+     <a class="self-link" href="#example-cordova-allow-list"></a>
      <div class="marker">EXAMPLE: Cordova Allow List</div>
      <p>By default, new apps are configured to allow access to any site. Before moving your application to production, you should formulate an allow list to provide access to specific network domains and subdomains.</p>
     </div>
